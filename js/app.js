@@ -24,6 +24,16 @@ const stabilityEl = $("#stability");
 const neighborsEl = $("#neighbors");
 const historyEl = $("#history");
 
+function syncDirectionControl() {
+  if (!autoInput || !dirInput) return;
+  if (!autoInput.checked || tracker.count() === 0) {
+    dirInput.disabled = false;
+    return;
+  }
+  dirInput.disabled = true;
+  dirInput.value = inferNextDirection(tracker.spins);
+}
+
 function refresh() {
   const spins = tracker.spins;
 
@@ -52,6 +62,7 @@ function refresh() {
   setText(neighborsEl, analyzer.mean === null ? "–" : `± ${analyzer.suggestedNeighbors()}`);
 
   renderHistory(historyEl, spins);
+  syncDirectionControl();
 }
 
 function parseNumber(v) {
@@ -63,7 +74,7 @@ function parseNumber(v) {
 addBtn.addEventListener("click", () => {
   const n = parseNumber(numInput.value);
   const manualDir = dirInput.value;
-  const useAuto = autoInput?.checked;
+  const useAuto = autoInput?.checked === true;
   const dir = useAuto && tracker.count() > 0
     ? inferNextDirection(tracker.spins)
     : manualDir;
@@ -95,6 +106,10 @@ resetBtn.addEventListener("click", () => {
   analyzer.reset();
   showMessage(msg, "Reset completato.");
   refresh();
+});
+
+autoInput?.addEventListener("change", () => {
+  syncDirectionControl();
 });
 
 // Enter per aggiungere rapidamente
