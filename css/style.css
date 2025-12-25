@@ -1,0 +1,121 @@
+:root {
+  --bg: #0b0d12;
+  --card: #121622;
+  --text: #e9ecf3;
+  --muted: #aab2c5;
+  --border: #222a3a;
+  --btn: #2b6cff;
+  --btn2: #2a2f3d;
+  --danger: #ff3b30;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.header h1 { margin: 0 0 6px; font-size: 24px; }
+.sub { margin: 0; color: var(--muted); line-height: 1.35; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+input, select {
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0f1320;
+  color: var(--text);
+  padding: 0 10px;
+  min-width: 160px;
+}
+
+.btn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: var(--btn);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover { filter: brightness(1.06); }
+.btn-secondary { background: var(--btn2); border-color: var(--border); }
+.btn-danger { background: var(--danger); }
+
+.msg {
+  min-height: 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.output {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pill {
+  border: 1px solid var(--border);
+  background: #0f1320;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.pill-label { color: var(--muted); font-size: 13px; }
+.pill-value { font-size: 34px; font-weight: 800; margin-top: 4px; }
+
+.meta {
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.k { color: #c7cde0; }
+
+.history {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .output { grid-template-columns: 1fr; }
+  input, select { min-width: 140px; }
+}
