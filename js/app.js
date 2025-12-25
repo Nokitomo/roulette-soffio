@@ -10,6 +10,7 @@ const analyzer = new Analyzer({ alpha: 0.18, beta: 0.18 });
 
 const numInput = $("#numInput");
 const dirInput = $("#dirInput");
+const autoInput = $("#autoInput");
 const addBtn = $("#addBtn");
 const undoBtn = $("#undoBtn");
 const resetBtn = $("#resetBtn");
@@ -61,7 +62,11 @@ function parseNumber(v) {
 
 addBtn.addEventListener("click", () => {
   const n = parseNumber(numInput.value);
-  const dir = dirInput.value;
+  const manualDir = dirInput.value;
+  const useAuto = autoInput?.checked;
+  const dir = useAuto && tracker.count() > 0
+    ? inferNextDirection(tracker.spins)
+    : manualDir;
 
   if (n === null) {
     showMessage(msg, "Inserisci un numero valido 0–36.", true);
