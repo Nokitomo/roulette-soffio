@@ -10,6 +10,7 @@ const analyzer = new Analyzer({ alpha: 0.18, beta: 0.18 });
 
 const numInput = $("#numInput");
 const dirInput = $("#dirInput");
+const autoInput = $("#autoInput");
 const addBtn = $("#addBtn");
 const undoBtn = $("#undoBtn");
 const resetBtn = $("#resetBtn");
@@ -22,6 +23,16 @@ const nextDirEl = $("#nextDir");
 const stabilityEl = $("#stability");
 const neighborsEl = $("#neighbors");
 const historyEl = $("#history");
+
+function syncDirectionControl() {
+  if (!autoInput || !dirInput) return;
+  if (!autoInput.checked || tracker.count() === 0) {
+    dirInput.disabled = false;
+    return;
+  }
+  dirInput.disabled = true;
+  dirInput.value = inferNextDirection(tracker.spins);
+}
 
 function refresh() {
   const spins = tracker.spins;
@@ -51,6 +62,7 @@ function refresh() {
   setText(neighborsEl, analyzer.mean === null ? "–" : `± ${analyzer.suggestedNeighbors()}`);
 
   renderHistory(historyEl, spins);
+  syncDirectionControl();
 }
 
 function parseNumber(v) {
@@ -61,7 +73,11 @@ function parseNumber(v) {
 
 addBtn.addEventListener("click", () => {
   const n = parseNumber(numInput.value);
-  const dir = dirInput.value;
+  const manualDir = dirInput.value;
+  const useAuto = autoInput?.checked === true;
+  const dir = useAuto && tracker.count() > 0
+    ? inferNextDirection(tracker.spins)
+    : manualDir;
 
   if (n === null) {
     showMessage(msg, "Inserisci un numero valido 0–36.", true);
@@ -90,6 +106,10 @@ resetBtn.addEventListener("click", () => {
   analyzer.reset();
   showMessage(msg, "Reset completato.");
   refresh();
+});
+
+autoInput?.addEventListener("change", () => {
+  syncDirectionControl();
 });
 
 // Enter per aggiungere rapidamente
